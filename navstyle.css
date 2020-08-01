@@ -1,0 +1,319 @@
+body{
+     /* background: url('backmucha.jpg') no-repeat;  */
+    background-attachment: fixed;
+    background-color: black;
+	background-size: cover;
+	font-family: Arial;
+     padding: 0;
+	margin: 0;
+	margin-top: -5px; 
+	/* overflow-y: scroll; */
+	
+}
+
+#smedia a{
+	margin-left: 5px;
+}
+
+#jfooter {
+			background-color: black;
+			position: absolute;
+			bottom: 0;
+			height: 7.5%;
+			width: 100%;
+			opacity: .75;
+			color: white;
+			font-size: 20px;
+			display: inline-block;
+			min-height: 45px;
+		}
+
+		#footerEmail {
+			position: relative;
+			display: inline-block;
+			height: 70%;
+
+			margin-left: 10px;
+			align-items: center;
+			font-size: 25px;
+			display: flex;
+		}
+
+		#mailImageContainer {
+			position: relative;
+			height: 70%;
+			float: left;
+			display: none;
+		}
+
+		#leftFooter {
+			position: relative;
+			margin-left: 15px;
+			top: 15%;
+		}
+
+		#emailSpan {
+			margin: 0;
+			max-width: calc(100% - 125px);
+			display: none;
+		}
+
+
+		#smedia {
+			position: absolute;
+			top: 15%;
+			right: 15px;
+			height: 70%;
+		}
+
+#nav{
+	width: 100%;
+	position: relative;
+	z-index:1000;
+    /* opacity:.75;  */
+     /* background-color: #000000; */
+}
+
+#wrapper{
+    width:100%;
+    margin:0 auto;
+	text-align: center;
+	
+}
+
+html {
+	overflow-x: hidden;
+	margin-right: calc(-1 * (100vw - 100%));
+  }
+
+  /* Praise to Pongo!!! */
+
+/* #nav ul li a {
+	font-size: auto;
+} */
+
+#nav ul{
+    list-style-type:none;
+    padding:0;
+    margin:0;
+}
+
+#nav ul li{
+	position: relative;
+    opacity:.75;
+    /* background-color:black; */
+    display: inline-block;
+    text-align: center; 
+    width: 20vw;
+	margin-left: -2px;
+	margin-right: -2px;
+	/* height:7.5%; */
+}
+
+#nav ul li:hover{
+     background-color: grey; 
+     opacity:1;
+     width:20vw;
+}
+
+ #nav ul li a,visited{
+    color:white;
+    display: block;
+    padding-top:15px;
+    padding-bottom:15px;
+    padding-right:0px;
+    padding-left:0px;
+    text-decoration: none;
+    z-index:1;
+} 
+
+/* #nav ul li a:hover{
+    /* consider making more interesting */
+    /* color:white;
+    text-decoration: none;
+}  */
+
+#nav ul li:hover ul{
+    display:block;
+}
+
+#responsiveIcon{
+	position: relative;
+	display: none;
+	float: right;
+	/* right: 20px; */
+	max-height: 40px;
+	/* top: 4px; */
+	cursor: pointer;
+} 
+
+@media screen and (min-aspect-ratio: 230/337) {
+	#wrapper{
+		display:block;
+	}
+
+}
+
+
+@media screen and (max-aspect-ratio: 230/337) {
+#wrapper{
+	position: absolute;
+	top: 100%;
+}
+
+#nav ul{
+	background-color: rgba(0,0,0,0.75);
+}
+	.seenWrapper{
+		display:none;
+	}
+
+	#responsiveIconContainer{
+		height: 70%;
+		position: absolute;
+		top: 15%;
+		right: 22px;
+	}
+
+
+	#nav ul li{
+		width:100%;
+		background-color: rgba(0,0,0,0);
+}
+
+#nav ul li a{
+	
+	font-size: 1.5em;
+}
+
+#nav ul ul{
+	width:100%;
+}
+
+#nav ul li:hover{
+	width:100%;
+}
+
+/* #nav ul li ul li{
+	display:none;
+} */
+
+#nav{
+    width:100%;
+    margin:0 auto;
+	text-align: center;
+	background-color:black;
+	height: 7.5%;
+}
+
+#footerEmail{
+	font-size: 15px;
+}
+
+#responsiveIcon{
+	display: block;
+	max-height: 100%;
+    max-width: 100%;
+	}
+
+	.active{
+		display:block
+	}
+}
+
+
+#nav ul ul{
+    display:none;
+    position: absolute;
+     width:20vw;
+     min-width: 125px;
+     opacity:1;
+     z-index:1;
+}
+
+#nav ul ul li{
+    display:block;
+    width:100%;
+    background-color: black;
+	opacity:.75;
+	margin-left: 0px;
+}
+
+/* #nav ul ul li a, visited{
+     display: inline-block; 
+     width:80%; 
+     opacity:1;
+}
+
+#nav ul ul li a:hover{
+    color: white;
+    display: inline-block;
+    opacity:1;
+} */
+
+
+
+#nav ul ul li:hover{
+    background-color: grey;
+    opacity:1;
+    width:100%;
+}
+
+		#albumbio {
+			background-color: black;
+			position: absolute;
+			/* bottom: 0; */
+			height: 7.5%;
+			width: 100%;
+			min-width: 50px;
+			opacity: .75;
+			color: white;
+			font-size: 20px;
+			display: inline-block;
+		}
+
+		#conterct {
+			position: absolute;
+			bottom: 0;
+			height: 50%;
+			top: 30%;
+			left: 2%;
+			text-align: center;
+			font-size: 20px;
+			font-size: 1.3vw;
+			display: flex;
+		}
+
+		
+		/* This controlled where your email was listed before you had the phone listing removed */
+		/* #conterct2 {
+			position: absolute;
+			bottom: 0;
+			height: 50%;
+			top:30%;
+			left: 15%;
+			text-align: center;    
+			font-size: 20px;
+			font-size: 1.3vw;
+			display: flex;
+		} */
+
+		#conterct2 {
+			position: absolute;
+			bottom: 0;
+			height: 70%;
+			top: 15%;
+			left: 2%;	
+  			align-items: center; 
+			font-size: 20px;
+			/* font-size: 1.3vw; */
+			display: flex;
+		}
+
+
+		#smedia {
+			position: absolute;
+			top: 15%;
+			right: 22px;
+			height: 70%;
+		}
