@@ -1,3 +1,152 @@
+body {
+            background: url('compnight.jpg') no-repeat;
+            background-attachment: fixed;
+            background-color: black;
+            background-size: cover;
+            font-family: Arial;
+            padding: 0;
+            margin: 0;
+            margin-top: -5px;
+        }
+
+        p {
+            font-size: 15px;
+        }
+
+        #chemistrymap {
+            position: relative;
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.75);
+            width: 60%;
+            left: 17.5%;
+            color: white;
+            padding-left: 3%;
+            padding-right: 3%;
+            padding-bottom: 3%;
+            outline: 0;
+            word-break: break-word;
+            word-wrap: break-word;
+            visibility: visible;
+            font-family: medium-content-sans-serif-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            letter-spacing: 0;
+            font-weight: 400;
+            font-style: normal;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            font-size: 20px;
+            line-height: 1.4;
+            top: 0px;
+            text-align: center;
+        }
+
+        #mainTitle {
+            line-height: 120%;
+            font-weight: 700;
+            font-size: 60px;
+            padding-top: 15px;
+        }
+
+        #nav {
+            margin-top: 0px;
+            z-index: 100;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            margin-top: 0px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        h3 {
+            padding: .5%;
+            font-size: 125%;
+            margin: 0px;
+            left: 10px;
+        }
+
+        h2 {
+            font-size: 200%;
+            margin: 0px;
+        }
+
+        #albumbio {
+            background-color: black;
+            position: relative;
+            height: 7.5%;
+            width: 100%;
+            opacity: .75;
+            color: white;
+            font-size: 20px;
+            display: block;
+            min-height: 25px;
+        }
+
+        #emailSpan {
+            margin: 0;
+        }
+
+        #selectedVideoDuration {
+            display: inline-block;
+        }
+
+        #selectedVideoID {
+            width: 100%;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        #addpracticalskill {
+            display: inline-block;
+        }
+
+        #footerEmail {
+            position: relative;
+            display: inline-block;
+            height: 70%;
+            margin-left: 10px;
+            align-items: center;
+            font-size: 25px;
+            display: flex;
+        }
+
+        #mailImageContainer {
+            position: relative;
+            height: 70%;
+            float: left;
+        }
+
+        #leftFooter {
+            position: relative;
+            margin-left: 15px;
+            top: 15%;
+        }
+
+        #notNav {
+            position: relative;
+            height: auto;
+            min-height: 75%;
+        }
+
+        .topNavBuffer {
+            height: 5px;
+        }
+
+        .topNavBuffer2 {
+            height: 77px;
+        }
+
+        #AllButFooter {
+            position: relative;
+            min-height: 92.5%;
+            width: 100%;
+            height: auto;
+        }
+
 body{
      /* background: url('backmucha.jpg') no-repeat;  */
     background-attachment: fixed;
