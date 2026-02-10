@@ -1,200 +1,122 @@
-var VID;
-        var vidDuration;
-        var startTime, endTime;
-        var continuetime = 0;
-        var currentVolume = 0;
-        var TQ = 3000;
-        var tag = document.createElement('script');
-        var player;
-        var currentVID;
-        var currentDuration;
-        var savedVolume;
-        var soundReduction;
-        var VIDInQ;
-        var durationInQ;
-        var initialDuration;
+    function extractVideoId(url) {
+        const regExp = /^.*(?:youtu.be\/|v\/|embed\/|watch\?v=|watch\?.+&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return match && match[1].length == 11 ? match[1] : null;
+    }
 
-
-
-        //timer start
-        //no work required
-        function start() {
-            startTime = new Date();
-        };
-
-        //timer end
-        //no work required
-        function end() {
-            endTime = new Date();
-            var timeDiff = endTime - startTime; //in ms
-            // strip the ms
-            timeDiff /= 1000;
-
-            // get seconds 
-            var seconds = Math.round(timeDiff);
+    function loadYouTubeVideo(url) {
+        const videoId = extractVideoId(url);
+        if (videoId) {
+            const iframe = document.createElement('iframe');
+            iframe.width = "560";
+            iframe.height = "315";
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+            iframe.frameBorder = "0";
+            iframe.allow = "autoplay; encrypted-media";
+            iframe.id = "youtubeIframe";
+            document.getElementById('videoContainer').innerHTML = '';
+            document.getElementById('videoContainer').appendChild(iframe);
         }
+    }
 
-        //getTimeElapsed
-        //no work required
-        function getTimeElapsed() {
-            endTime = new Date();
-            var timeDiff = endTime - startTime; //in ms
-            // strip the ms
-            // get seconds 
-            var seconds = Math.round(timeDiff);
-            return seconds;
-        }
-
-        function getYouTubeID() {
-            var URLinQuestion = document.getElementById('selectedVideoID').value.split('v=')[1];
-            var ampersandPosition = URLinQuestion.indexOf('&');
-            if (ampersandPosition != -1) {
-                URLinQuestion = URLinQuestion.substring(0, ampersandPosition);
-            }
-            return URLinQuestion;
-        }
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '292.5',
-                width: '100%',
-                videoId: VID,
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
+    function lowerVolume(intervalSeconds) {
+        let volume = 100;
+        const interval = setInterval(() => {
+            if (volume > 0) {
+                volume = Math.max(0, volume - 1);
+                const iframe = document.getElementById('youtubeIframe');
+                if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[' + volume + ']}', '*');
                 }
-            });
-        }
-
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-        var done = false;
-
-        //where button press goes to
-        //needs a bit of work
-        function popSummary(thing) {
-            //this is the chosen video URL
-            VIDInQ = getYouTubeID();
-            //this is the chosen duration value in ms
-            durationInQ = (document.getElementById('selectedVideoDuration').value);
-            //if both fields are selected than we can continue
-            if (VIDInQ != "" && durationInQ != "") {
-                //if both fields have been entered before, one of two things can be happening
-                if (vidDuration != undefined && VID != undefined) {
-
-                    //either the VID has been changed 
-                    if (VID != VIDInQ) {
-                        VID = VIDInQ;
-                        //the volume of the old video should be recorded
-                        savedVolume = player.getVolume();
-                        //the old player should be destroyed
-                        clearInterval(soundReduction);
-                        //a new player should be made with the new ID
-                        //the new player should be set to have the old videos volume
-                        player.loadVideoById(VID);
-                        player.setVolume(savedVolume);
-                        //and the TQ should be double checked just to be safe
-                        soundReduction = setInterval(reducerVolume, TQ);
-
-                    }
-                    //the bedtime has changed
-                    if (vidDuration != durationInQ && player.getVolume() > 0) {
-
-                        vidDuration = durationInQ;
-                        //the old set interval should be cleared
-                        clearInterval(soundReduction);
-                        //a new time quantum should be calculated from the new bedtime
-                        TQ = calculateTimeQuantum();
-                        //a new interval should begin with the new time quantum
-                        initialDuration = getViewingDuration();
-                        start();
-                        player.playVideo();
-                        soundReduction = setInterval(reducerVolume, TQ);
-
-                    }
-
-                }
-                if (VID == undefined && vidDuration == undefined) {
-                    VID = VIDInQ
-                    vidDuration = durationInQ;
-                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+            } else {
+                clearInterval(interval);
+                const iframe = document.getElementById('youtubeIframe');
+                if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":[]}','*');
                 }
             }
-            return;
+        }, intervalSeconds * 1000);
+    }
+
+    function calculateIntervalSeconds(targetTime) {
+        const now = new Date();
+        const [targetHours, targetMinutes] = targetTime.split(':').map(Number);
+        
+        const target = new Date(now);
+        target.setHours(targetHours, targetMinutes, 0, 0);
+
+        if (target < now) {
+            target.setDate(target.getDate() + 1);
         }
 
-        function onPlayerStateChange(event) {
+        const diffInSeconds = (target - now) / 1000;
+        return diffInSeconds / 100;
+    }
 
-            if (event.data == YT.PlayerState.PLAYING && !done) {
-                start();
-                savedVolume = player.getVolume();
-                TQ = calculateTimeQuantum();
-                initialDuration = getViewingDuration();
-                //this should stop once the video is over
-                //pressing "watch" again should start the whole thing over again
-
-                soundReduction = setInterval(reducerVolume, TQ);
-                done = true;
-            }
+    document.getElementById('watchBtn').addEventListener('click', () => {
+        const url = document.getElementById('youtubeUrl').value;
+        const timeInput = document.getElementById('timeInput').value;
+        if (url) {
+            loadYouTubeVideo(url);
+            const intervalSeconds = calculateIntervalSeconds(timeInput);
+            console.log("Here it is: "+intervalSeconds);
+            lowerVolume(intervalSeconds);
         }
+    });
 
-        var reducerVolume = async function reduceVolume() {
-            //this is where change in volume must be checked
+    const youtubeInput = document.getElementById('youtubeUrl');
 
-            currentVolume = player.getVolume();
-            if (savedVolume != currentVolume) {
-                TQ = calculateTimeQuantum();
-                savedVolume = currentVolume;
-                clearInterval(soundReduction);
-                soundReduction = setInterval(reducerVolume, TQ);
-            }
+    const buttonConfigs = [
+        { id: 'fiveMinBtn', volumeSteps: 3 },
+        { id: 'tenMinBtn', volumeSteps: 6 },
+        { id: 'fifteenMinBtn', volumeSteps: 9 },
+        { id: 'twentyMinBtn', volumeSteps: 12 },
+        { id: 'thirtyMinBtn', volumeSteps: 18 },
+        { id: 'fortyFiveMinBtn', volumeSteps: 27 },
+        { id: 'hourBtn', volumeSteps: 36 }
+    ];
 
-            player.setVolume(currentVolume - 1);
-            var timeElapsed = getTimeElapsed();
-            savedVolume = currentVolume - 1;
-            console.log(timeElapsed / 1000);
-            //this is the problem
-            if (initialDuration - timeElapsed <= 0) {
-                console.log(initialDuration + " - " + timeElapsed);
-                player.pauseVideo();
-                clearInterval(soundReduction);
-            }
-            console.log("the current volume is " + savedVolume);
+    function handleButtonClick(volumeSteps) {
+        const url = youtubeInput.value;
+        if (!url) return;
+
+        loadYouTubeVideo(url);
+        lowerVolume(volumeSteps);
+    }
+
+    buttonConfigs.forEach(({ id, volumeSteps }) => {
+        document.getElementById(id).addEventListener('click', () => {
+            handleButtonClick(volumeSteps);
+        });
+    });
+
+    const blackoutButton = document.getElementById('blackoutButton');
+    const blackoutOverlay = document.getElementById('blackoutOverlay');
+    const exitButton = document.getElementById('exitButton');
+
+    function enableBlackout() {
+      blackoutOverlay.style.display = 'block';
+    }
+
+    function disableBlackout() {
+      blackoutOverlay.style.display = 'none';
+    }
+
+    blackoutButton.addEventListener('click', enableBlackout);
+    exitButton.addEventListener('click', disableBlackout);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        disableBlackout();
+      }
+    });
+
+    document.querySelectorAll('.toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const explanation = toggle.nextElementSibling;
+
+        if (explanation && explanation.classList.contains('explanation')) {
+          explanation.classList.toggle('open');
         }
-
-        function calculateTimeQuantum() {
-            var currentDate = new Date;
-            var bedtimeDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), vidDuration.substring(0, 2), vidDuration.substring(3, 5), 0, 0);
-            if (currentDate.getHours() > vidDuration.substring(0, 2)) {
-                var remainingTimeInMS = Math.abs((bedtimeDate.getTime() + 86400000) - currentDate.getTime());
-            }
-            else {
-                var remainingTimeInMS = Math.abs(bedtimeDate.getTime() - currentDate.getTime());
-                //return remaining time divided by the current volume
-            }
-            var finalTQ = remainingTimeInMS / (player.getVolume());
-            console.log("This is the Time Quantum: " + finalTQ);
-            return finalTQ;
-        }
-
-        function getViewingDuration() {
-            var currentDate = new Date;
-            var bedtimeDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), vidDuration.substring(0, 2), vidDuration.substring(3, 5), 0, 0);
-            if (currentDate.getHours() > vidDuration.substring(0, 2)) {
-                var remainingTimeInMS = Math.abs((bedtimeDate.getTime() + 86400000) - currentDate.getTime());
-            }
-            else {
-                var remainingTimeInMS = Math.abs(bedtimeDate.getTime() - currentDate.getTime());
-                //return remaining time divided by the current volume
-            }
-            return remainingTimeInMS;
-        }
-
-        function stopVideo() {
-            player.stopVideo();
-        }
+      });
+    });
