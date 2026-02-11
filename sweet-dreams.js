@@ -1,3 +1,17 @@
+const youtubeInput = document.getElementById('youtubeUrl');
+const blackoutButton = document.getElementById('blackoutButton');
+const blackoutOverlay = document.getElementById('blackoutOverlay');
+const exitButton = document.getElementById('exitButton');
+const buttonConfigs = [
+    { id: 'fiveMinBtn', volumeSteps: 3 },
+    { id: 'tenMinBtn', volumeSteps: 6 },
+    { id: 'fifteenMinBtn', volumeSteps: 9 },
+    { id: 'twentyMinBtn', volumeSteps: 12 },
+    { id: 'thirtyMinBtn', volumeSteps: 18 },
+    { id: 'fortyFiveMinBtn', volumeSteps: 27 },
+    { id: 'hourBtn', volumeSteps: 36 }
+];
+
 function extractVideoId(url) {
     const regExp = /^.*(?:youtu.be\/|v\/|embed\/|watch\?v=|watch\?.+&v=)([^#\&\?]*).*/;
     const match = url.match(regExp);
@@ -63,17 +77,6 @@ document.getElementById('watchBtn').addEventListener('click', () => {
     }
 });
 
-const youtubeInput = document.getElementById('youtubeUrl');
-
-const buttonConfigs = [
-    { id: 'fiveMinBtn', volumeSteps: 3 },
-    { id: 'tenMinBtn', volumeSteps: 6 },
-    { id: 'fifteenMinBtn', volumeSteps: 9 },
-    { id: 'twentyMinBtn', volumeSteps: 12 },
-    { id: 'thirtyMinBtn', volumeSteps: 18 },
-    { id: 'fortyFiveMinBtn', volumeSteps: 27 },
-    { id: 'hourBtn', volumeSteps: 36 }
-];
 
 function handleButtonClick(volumeSteps) {
     const url = youtubeInput.value;
@@ -89,9 +92,6 @@ buttonConfigs.forEach(({ id, volumeSteps }) => {
     });
 });
 
-const blackoutButton = document.getElementById('blackoutButton');
-const blackoutOverlay = document.getElementById('blackoutOverlay');
-const exitButton = document.getElementById('exitButton');
 
 function enableBlackout() {
     blackoutOverlay.style.display = 'block';
