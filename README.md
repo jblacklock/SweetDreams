@@ -21,3 +21,9 @@ The latest iteration of SweetDreams also features a blackout mode option. This d
 ## Supported Operating Systems
 
 Currently SweetDreams works on all operating systems except macOS and iOS.
+
+---
+
+## NOTE
+
+YouTube's API will not respond to calls from local files. Feel free to go to https://jesseblacklock.com/SweetDreams.php to see SweetDreams in action.
